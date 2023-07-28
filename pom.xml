@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.acolad.oxygen</groupId>
+  <artifactId>web-author-id-finder-plugin</artifactId>
+  <version>1.0.0</version>
+
+  <scm>
+    <url>https://git.amplexor.com/scm/acodigfr/oxygen-id-finder-plugins.git</url>
+    <connection>scm:git:https://git.amplexor.com/scm/acodigfr/oxygen-id-finder-plugins.git</connection>
+    <developerConnection>scm:git:https://git.amplexor.com/scm/acodigfr/oxygen-id-finder-plugins.git</developerConnection>
+    <tag>1.0.0</tag>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>deploy</id>
+      <name>acolad-digital</name>
+      <url>https://nexus.amplexor.com/repository/Acolad-Digital-FR-release</url>
+    </repository>
+    <snapshotRepository>
+      <id>deploy-snapshot</id>
+      <name>acolad-digital-snapshot</name>
+      <url>https://nexus.amplexor.com/repository/Acolad-Digital-FR-snapshot</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <properties>
+    <oxygen.sdk.version>24.1.0.0</oxygen.sdk.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+  </properties>
+
+  <repositories>
+    <!-- Download artifacts from the oXygem XML Maven Repository-->
+    <repository>
+      <id>oxygenxml</id>
+      <name>oXygen XML SDK Maven Repository</name>
+      <url>https://oxygenxml.com/maven/</url>
+    </repository>
+    <repository>
+      <id>deploy</id>
+      <url>https://nexus.amplexor.com/repository/Acolad-Digital-FR-release</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>deploy-snapshot</id>
+      <url>https://nexus.amplexor.com/repository/Acolad-Digital-FR-snapshot</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.oxygenxml</groupId>
+      <artifactId>oxygen-sdk</artifactId>
+      <version>${oxygen.sdk.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+          <version>3.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>${project.artifactId}-${project.version}</finalName>
+    <plugins>
+      <!-- remove the -SNAPSHOT from packaged plugin -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.10</version>
+        <executions>
+          <execution>
+            <id>set-version-no-snapshot</id>
+            <goals>
+              <goal>regex-property</goal>
+            </goals>
+            <configuration>
+              <name>project.nosnapshot.version</name>
+              <value>${project.version}</value>
+              <regex>-SNAPSHOT</regex>
+              <replacement />
+              <failIfNoMatch>false</failIfNoMatch>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.8</version>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/lib</outputDirectory>
+              <includeScope>runtime</includeScope>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <!-- We only want the final JAR package in the target folder so that it's easier for users to identify it.-->
+          <outputDirectory>${project.build.directory}/build</outputDirectory>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <archiveBaseDirectory>${project.basedir}</archiveBaseDirectory>
+              <descriptors>
+                <descriptor>assembly.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+
+
+  </build>
+</project>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The plugin.dtd file is located in the OXYGEN_INSATALL_DIR/plugins directory -->
+<!DOCTYPE plugin SYSTEM "../plugin.dtd">
+
+<plugin
+    class="com.acolad.oxygen.AcoladPluginExtension"
+    id="com.acolad.oxygen.IdFinder"
+    name="Acolad Id Finder Plugin"
+    description=""
+    version="1.0"
+    vendor="Acolad">
+
+  <runtime>
+    <librariesFolder name="lib" />
+    <library name="target/classes" />
+    <librariesFolder name="target/lib" />
+  </runtime>
+
+  <extension type="WebappStaticResourcesFolder" path="web/static/" href="com.acolad.oxygen.IdFinder"/>
+  <extension type="WebappCSSResource" href="web/static/custom.css"/>
+</plugin>
