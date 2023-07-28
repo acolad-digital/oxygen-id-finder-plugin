@@ -4,13 +4,13 @@
 
   <groupId>com.acolad.oxygen</groupId>
   <artifactId>web-author-id-finder-plugin</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0-SNAPSHOT</version>
 
   <scm>
     <url>https://git.amplexor.com/scm/acodigfr/oxygen-id-finder-plugins.git</url>
     <connection>scm:git:https://git.amplexor.com/scm/acodigfr/oxygen-id-finder-plugins.git</connection>
     <developerConnection>scm:git:https://git.amplexor.com/scm/acodigfr/oxygen-id-finder-plugins.git</developerConnection>
-    <tag>1.0.0</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
